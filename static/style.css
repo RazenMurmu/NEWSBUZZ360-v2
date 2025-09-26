@@ -428,3 +428,56 @@ a:hover {
     font-style: italic;
     color: #6c757d;
 }
+
+/* ===================================================
+   8. Footer Styles
+   =================================================== */
+
+.main-footer {
+    border-top: 4px solid var(--primary-red);
+}
+
+.footer-heading {
+    font-family: var(--font-headings);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: #adb5bd; /* Lighter text for links */
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+    padding-left: 5px;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #495057;
+    color: #ffffff;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: var(--primary-red);
+    transform: translateY(-2px);
+}
+
+.footer-bottom {
+    background-color: #1a1a1a; /* Even darker for the bottom bar */
+}

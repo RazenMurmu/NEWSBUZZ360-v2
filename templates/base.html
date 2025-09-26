@@ -88,8 +88,52 @@
         </div>
     </main>
 
-    <footer class="bg-dark text-white text-center py-3 mt-auto">
-        <div class="container">
+    <footer class="main-footer bg-dark text-light">
+        <div class="container pt-5 pb-4">
+            <div class="row">
+
+                <div class="col-md-4 mb-4">
+                    <h5 class="footer-heading">About Newsbuzz360</h5>
+                    <p class="text-muted">
+                        Your most reliable source for the latest news and in-depth analysis on technology, sports,
+                        lifestyle, and more. Stay informed, stay ahead.
+                    </p>
+                </div>
+
+                <div class="col-md-2 mb-4">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('trending') }}">Trending</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <h5 class="footer-heading">Categories</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="{{ url_for('category', category_name='technology') }}">Technology</a></li>
+                        <li><a href="{{ url_for('category', category_name='sports') }}">Sports</a></li>
+                        <li><a href="{{ url_for('category', category_name='lifestyle') }}">Lifestyle</a></li>
+                        <li><a href="{{ url_for('category', category_name='entertainment') }}">Entertainment</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <h5 class="footer-heading">Follow Us</h5>
+                    <p class="text-muted">Stay connected on social media.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="footer-bottom text-center py-3">
             <small>&copy; {{ current_year }} Newsbuzz360. All rights reserved.</small>
         </div>
     </footer>
