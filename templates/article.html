@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <article>
+            <header class="mb-4">
+                <h1 class="fw-bold mb-2">{{ post.title }}</h1>
+                
+                {% if post.subtitle %}
+                <h2 class="h4 text-muted mb-3">{{ post.subtitle }}</h2>
+                {% endif %}
+                
+                <div class="d-flex align-items-center text-muted mb-4">
+                    <span class="badge bg-danger me-3">{{ post.category|default('General', true) }}</span>
+                    <i class="far fa-clock me-2"></i>
+                    <span>{{ post.created_at|datetime }}</span>
+                    <span class="mx-2">•</span>
+                    <i class="far fa-user me-2"></i>
+                    <span>By Admin</span>
+                </div>
+
+                {% if post.thumbnail %}
+                <img src="{{ url_for('static', filename='uploads/' + post.thumbnail) }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+                {% endif %}
+            </header>
+
+            <div class="article-content">
+                {{ post.content|safe }}
+            </div>
+        </article>
+
+        {% if related_posts %}
+        <section class="mt-5">
+            <h3 class="h4 mb-4 section-title"><span>Related Articles</span></h3>
+            <div class="row">
+                {% for related_post in related_posts %}
+                <div class="col-md-6 mb-3">
+                    <div class="card post-card h-100">
+                        {% if related_post.thumbnail %}
+                        <img src="{{ url_for('static', filename='uploads/' + related_post.thumbnail) }}" class="card-img-top" alt="{{ related_post.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ related_post.title }}</h5>
+                            <a href="{{ url_for('article', id=related_post.id) }}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </div>
+
+    <div class="col-lg-4">
+        <aside class="sidebar">
+             <div class="sidebar-widget">
+                <h4 class="widget-title widget-title-blue"><i class="fas fa-folder me-2"></i> Categories</h4>
+                <div class="widget-body">
+                    {% if categories %}
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for category, count in categories %}
+                        <a href="{{ url_for('category', category_name=category) }}" class="badge category-badge">
+                            {{ category }} ({{ count }})
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h4 class="widget-title widget-title-green"><i class="fas fa-history me-2"></i> Recent Posts</h4>
+                <div class="widget-body">
+                    {% if recent_posts %}
+                    <ul class="list-unstyled">
+                        {% for recent_post in recent_posts %}
+                        <li class="recent-post-item">
+                            <a href="{{ url_for('article', id=recent_post.id) }}">
+                                <h6 class="mb-0">{{ recent_post.title }}</h6>
+                                <small class="text-muted">{{ recent_post.created_at|datetime }}</small>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+        </ol>
+    </nav>
+
+    <!-- Categories Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold">News Categories</h1>
+            <p class="lead">Browse news by category</p>
+        </div>
+    </div>
+
+    <!-- Categories Grid -->
+    {% if categories %}
+    <div class="row">
+        {% for category in categories %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <i class="fas fa-folder fa-3x text-primary mb-3"></i>
+                    <h3 class="card-title">{{ category[0] }}</h3>
+                    <p class="card-text">{{ category[1] }} article{% if category[1] != 1 %}s{% endif %}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{{ url_for('category', category_name=category[0]) }}" class="btn btn-primary w-100">
+                        View Articles
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+        <h3 class="text-muted">No categories yet</h3>
+        <p class="text-muted">Categories will appear when posts are created with categories.</p>
+        <a href="{{ url_for('home') }}" class="btn btn-primary mt-3">Back to Home</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

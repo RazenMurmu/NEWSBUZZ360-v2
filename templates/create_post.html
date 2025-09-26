@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-plus-circle"></i> Create New Post</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.title.label(class="form-label") }}
+                            {{ form.title(class="form-control form-control-lg", placeholder="Enter a catchy title") }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.subtitle.label(class="form-label") }}
+                            {{ form.subtitle(class="form-control", placeholder="Brief description of your post") }}
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.category.label(class="form-label") }}
+                                {{ form.category(class="form-select") }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.featured.label(class="form-label") }}
+                                {{ form.featured(class="form-select") }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.thumbnail.label(class="form-label") }}
+                            {{ form.thumbnail(class="form-control", accept="image/*", id="thumbnail") }}
+                            <div class="form-text">Upload a thumbnail image for your post (optional)</div>
+                            <div id="thumbnailPreview" class="mt-2" style="display:none;">
+                                <img id="previewImg" src="#" alt="Thumbnail preview" class="img-thumbnail" style="max-height: 200px;">
+                            </div>
+                        </div>
+                        
+                        <!-- ✅ Custom Editor -->
+                        <div class="mb-3">
+                            {{ form.content.label(class="form-label") }}
+                            <div id="toolbar" class="mb-2">
+                                <button type="button" onclick="wrap('**','**')"><b>B</b></button>
+                                <button type="button" onclick="wrap('*','*')"><i>I</i></button>
+                                <button type="button" onclick="insertImage()">🖼️ Image</button>
+                            </div>
+                            {{ form.content(class="form-control", id="editor", rows=12, placeholder="Write your content here...") }}
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ url_for('admin') }}" class="btn btn-secondary me-md-2">Cancel</a>
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Thumbnail preview
+document.getElementById('thumbnail').addEventListener('change', function() {
+    const preview = document.getElementById('thumbnailPreview');
+    const previewImg = document.getElementById('previewImg');
+    if (this.files && this.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            previewImg.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(this.files[0]);
+    } else {
+        preview.style.display = 'none';
+    }
+});
+
+// Wrap text with markdown-like syntax
+function wrap(startTag, endTag) {
+    const editor = document.getElementById('editor');
+    const selection = editor.value.substring(editor.selectionStart, editor.selectionEnd);
+    const before = editor.value.substring(0, editor.selectionStart);
+    const after = editor.value.substring(editor.selectionEnd);
+    editor.value = before + startTag + selection + endTag + after;
+}
+
+// Insert image
+function insertImage() {
+    let fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.onchange = async () => {
+        let formData = new FormData();
+        formData.append('upload', fileInput.files[0]);
+        let res = await fetch('/upload_image', { method: 'POST', body: formData });
+        let data = await res.json();
+        if (data.url) {
+            const editor = document.getElementById('editor');
+            editor.value += `<img src="${data.url}" alt="image">`;
+        }
+    };
+    fileInput.click();
+}
+</script>
+
+{% endblock %}

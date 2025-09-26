@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col-lg-8">
+        {% if featured_posts %}
+        <section class="mb-5">
+            <h2 class="section-title"><span><i class="fas fa-star"></i> Featured Stories</span></h2>
+            {% set hero_post = featured_posts[0] %}
+            <div class="card hero-featured-post">
+                {% if hero_post.thumbnail %}
+                <img src="{{ url_for('static', filename='uploads/' + hero_post.thumbnail) }}" class="card-img" alt="{{ hero_post.title }}">
+                {% endif %}
+                <div class="card-img-overlay d-flex flex-column justify-content-end">
+                    <a href="{{ url_for('category', category_name=hero_post.category) }}" class="badge bg-primary mb-2 align-self-start">{{ hero_post.category }}</a>
+                    <h3 class="card-title fw-bold text-white">{{ hero_post.title }}</h3>
+                    <a href="{{ url_for('article', id=hero_post.id) }}" class="btn btn-light btn-sm align-self-start">Read More</a>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <section>
+            <h2 class="section-title"><span><i class="fas fa-newspaper"></i> More News</span></h2>
+            {% if posts_pagination.items %}
+                {% for post in posts_pagination.items %}
+                <div class="news-list-item">
+                    <div class="timestamp">{{ post.created_at|datetime }}</div>
+                    <div class="content">
+                        <h4 class="title"><a href="{{ url_for('article', id=post.id) }}">{{ post.title }}</a></h4>
+                        <p class="summary">{{ post.subtitle or post.content|truncate(120) }}</p>
+                    </div>
+                    <div class="thumbnail">
+                        <a href="{{ url_for('article', id=post.id) }}">
+                             <img src="{{ url_for('static', filename='uploads/' + post.thumbnail) if post.thumbnail else 'https://via.placeholder.com/150' }}" alt="{{ post.title }}">
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No news to display.</p>
+            {% endif %}
+
+            {% if posts_pagination.pages > 1 %}
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if not posts_pagination.has_prev %}disabled{% endif %}"><a class="page-link" href="{{ url_for('home', page=posts_pagination.prev_num) }}">&laquo;</a></li>
+                    {% for page_num in posts_pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                        {% if page_num %}
+                            <li class="page-item {% if posts_pagination.page == page_num %}active{% endif %}"><a class="page-link" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="page-item {% if not posts_pagination.has_next %}disabled{% endif %}"><a class="page-link" href="{{ url_for('home', page=posts_pagination.next_num) }}">&raquo;</a></li>
+                </ul>
+            </nav>
+            {% endif %}
+        </section>
+    </div>
+
+    <div class="col-lg-4">
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <h4 class="widget-title widget-title-blue"><i class="fas fa-folder me-2"></i> Categories</h4>
+                <div class="widget-body">
+                    {% if categories %}
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for category, count in categories %}
+                        <a href="{{ url_for('category', category_name=category) }}" class="badge category-badge">
+                            {{ category }} ({{ count }})
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h4 class="widget-title widget-title-green"><i class="fas fa-history me-2"></i> Recent Posts</h4>
+                <div class="widget-body">
+                    {% if posts_pagination.items %}
+                    <ul class="list-unstyled">
+                        {% for post in posts_pagination.items[:5] %}
+                        <li class="recent-post-item">
+                            <a href="{{ url_for('article', id=post.id) }}">
+                                <h6 class="mb-0">{{ post.title }}</h6>
+                                <small class="text-muted">{{ post.created_at|datetime }}</small>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h4 class="widget-title widget-title-cyan"><i class="fas fa-envelope me-2"></i> Newsletter</h4>
+                <div class="widget-body">
+                    <p>Stay updated with our latest news and articles.</p>
+                    <form>
+                        <input type="email" class="form-control mb-2" placeholder="Enter your email">
+                        <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,424 @@
+/* ===================================================
+   1. Global Styles & CSS Variables
+   =================================================== */
+
+:root {
+    /* Color Palette */
+    --primary-red: #c82333;
+    --primary-dark-red: #a81e2a;
+    --background-color: #f8f9fa;
+    --surface-color: #ffffff;
+    --text-color: #212529;
+    --heading-color: #1a1a1a;
+    --border-color: #dee2e6;
+    --light-gray: #f1f1f1;
+
+    /* Typography */
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-logo: 'Playfair Display', serif;
+
+    /* Spacing & Borders */
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.5rem;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--heading-color);
+    font-weight: 700;
+}
+
+a {
+    color: var(--primary-red);
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+    color: var(--primary-dark-red);
+    text-decoration: none;
+}
+
+/* ===================================================
+   2. Header & Navbar Styles
+   =================================================== */
+
+/* Top "Breaking News" Bar */
+#top-breaking-bar {
+    background-color: var(--primary-red);
+    color: white;
+    padding: 8px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
+
+.breaking-tag {
+    background-color: white;
+    color: var(--primary-red);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+/* Main Header (Logo & Search) */
+#header-main {
+    background-color: var(--surface-color);
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-main-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-family: var(--font-logo);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--heading-color);
+}
+
+.logo span {
+    color: var(--primary-red);
+}
+
+.search-form {
+    display: flex;
+    width: 300px;
+}
+.search-form .btn {
+    background-color: var(--primary-red);
+    color: white;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.search-form .btn:hover {
+    background-color: var(--primary-dark-red);
+}
+
+
+/* Main Navigation Bar */
+#main-nav {
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--light-gray);
+    transition: all 0.3s ease;
+}
+
+#main-nav.sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: var(--box-shadow);
+}
+
+#main-nav .nav-link {
+    font-weight: bold;
+    color: var(--text-color);
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+#main-nav .nav-link:hover,
+#main-nav .nav-link.active {
+    color: var(--primary-red);
+}
+
+.subscribe-btn {
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: var(--primary-red);
+    border-color: var(--primary-red);
+    border-radius: var(--border-radius-md);
+}
+.subscribe-btn:hover {
+     background-color: var(--primary-dark-red);
+     border-color: var(--primary-dark-red);
+}
+
+/* --- Responsive Styles for Header --- */
+@media (max-width: 992px) {
+    .header-main-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+    .logo {
+        margin-bottom: 15px;
+    }
+    .search-form {
+        width: 80%;
+    }
+    #main-nav .navbar-nav {
+        width: 100%;
+        text-align: center;
+    }
+    .subscribe-btn {
+       width: 100%;
+       margin-top: 10px;
+    }
+}
+
+/* ===================================================
+   3. Homepage Content Styles
+   =================================================== */
+
+.section-title {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.section-title span {
+    border-bottom: 2px solid var(--primary-red);
+    padding-bottom: 0.5rem;
+}
+
+.section-title i {
+    color: var(--primary-red);
+}
+
+/* Featured Hero Post */
+.hero-featured-post {
+    border: none;
+    position: relative;
+    min-height: 450px;
+}
+.hero-featured-post .card-img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: var(--border-radius-md);
+}
+.hero-featured-post .card-img-overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    border-radius: var(--border-radius-md);
+}
+.hero-featured-post .card-title {
+    font-size: 2.2rem;
+    line-height: 1.2;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* ===================================================
+   4. Card Styles
+   =================================================== */
+
+.post-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: all 0.3s ease-in-out;
+}
+.post-card:hover {
+    box-shadow: var(--box-shadow);
+    transform: translateY(-5px);
+}
+.post-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: var(--border-radius-md);
+    border-top-right-radius: var(--border-radius-md);
+}
+.card-img-top-placeholder {
+    height: 200px;
+    background-color: #e9ecef;
+}
+.post-card .card-title {
+    font-family: var(--font-headings);
+    font-weight: bold;
+    color: var(--heading-color);
+}
+.post-card .badge {
+    text-transform: uppercase;
+}
+.post-card .stretched-link::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    background-color: rgba(0,0,0,0);
+}
+/* ===================================================
+   5. Sidebar Styles
+   =================================================== */
+.sidebar-widget {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.widget-title {
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 0.8rem 1.2rem;
+    margin: 0;
+    color: white;
+    text-transform: uppercase;
+    border-top-left-radius: var(--border-radius-md);
+    border-top-right-radius: var(--border-radius-md);
+}
+.widget-title-blue { background-color: #0d6efd; }
+.widget-title-green { background-color: #198754; }
+.widget-title-cyan { background-color: #0dcaf0; color: var(--text-color); }
+
+.widget-body {
+    padding: 1.2rem;
+}
+
+.category-badge {
+    background-color: #e9ecef;
+    color: var(--text-color);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.4rem 0.7rem;
+}
+.category-badge:hover {
+    background-color: #d3d3d3;
+}
+
+.recent-post-item {
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.8rem 0;
+}
+.recent-post-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.recent-post-item:first-child {
+    padding-top: 0;
+}
+.recent-post-item a:hover h6 {
+    color: var(--primary-red);
+}
+
+/* ===================================================
+   3. Card Styles
+   (We will add these based on the design)
+   =================================================== */
+
+
+/* ===================================================
+   4. Footer Styles
+   (We will add these based on the design)
+   =================================================== */
+
+/* ===================================================
+   5. Utility Classes
+   (We can add helpers here later)
+   =================================================== */
+
+
+   /* ===================================================
+   6. News List & Pagination Styles
+   =================================================== */
+
+.news-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.news-list-item .timestamp {
+    flex-basis: 100px;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+.news-list-item .content {
+    flex-grow: 1;
+}
+.news-list-item .title {
+    font-family: var(--font-headings);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+.news-list-item .title a {
+    color: var(--heading-color);
+}
+.news-list-item .title a:hover {
+    color: var(--primary-red);
+}
+.news-list-item .summary {
+    font-size: 0.95rem;
+    color: #495057;
+    margin: 0;
+}
+.news-list-item .thumbnail {
+    flex-basis: 150px;
+    flex-shrink: 0;
+}
+.news-list-item .thumbnail img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-sm);
+}
+
+/* Pagination */
+.pagination .page-link {
+    color: var(--primary-red);
+    border: 1px solid var(--border-color);
+    margin: 0 3px;
+    border-radius: var(--border-radius-sm);
+}
+.pagination .page-link:hover {
+    background-color: #f1f1f1;
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-red);
+    border-color: var(--primary-red);
+    color: white;
+}
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #fff;
+    border-color: var(--border-color);
+}
+
+/* ===================================================
+   7. Article Page Styles (Two-Column)
+   =================================================== */
+
+.article-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-md);
+    margin: 1.5rem 0;
+}
+
+.article-content blockquote {
+    border-left: 4px solid var(--primary-red);
+    padding-left: 1rem;
+    margin-left: 0;
+    font-style: italic;
+    color: #6c757d;
+}

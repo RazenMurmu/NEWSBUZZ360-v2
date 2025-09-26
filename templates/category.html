@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('categories') }}">Categories</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ category_name }}</li>
+        </ol>
+    </nav>
+
+    <!-- Category Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold">{{ category_name }} News</h1>
+            <p class="lead">Latest articles in {{ category_name }} category</p>
+        </div>
+    </div>
+
+    <!-- Posts Grid -->
+    {% if posts %}
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 post-card">
+                {% if post.thumbnail %}
+                <img src="{{ url_for('static', filename='uploads/' + post.thumbnail) }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-image fa-2x text-muted"></i>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <span class="badge bg-secondary mb-2">{{ post.category|default('General', true) }}</span>
+                    {% if post.featured %}
+                    <span class="badge bg-warning text-dark mb-2 ms-1">Featured</span>
+                    {% endif %}
+                    <h3 class="card-title h5">{{ post.title }}</h3>
+                    {% if post.subtitle %}
+                    <p class="card-text text-muted">{{ post.subtitle }}</p>
+                    {% endif %}
+                    <p class="card-text">{{ post.content|truncate(150) }}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">
+                            <i class="far fa-clock me-1"></i>{{ post.created_at|datetime }}
+                        </small>
+                        <a href="{{ url_for('article', id=post.id) }}" class="btn btn-outline-primary btn-sm">Read More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+        <h3 class="text-muted">No articles in this category yet</h3>
+        <p class="text-muted">Check back later for {{ category_name }} news.</p>
+        <a href="{{ url_for('categories') }}" class="btn btn-primary mt-3">Back to Categories</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
