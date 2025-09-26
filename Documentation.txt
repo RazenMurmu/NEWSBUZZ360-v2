@@ -1,0 +1,107 @@
+# Newsbuzz360 - Project Architecture & Code Flow
+
+---
+
+## OVERVIEW
+
+Newsbuzz360 is a Flask-based news portal. It uses Flask for routing, SQLAlchemy for database ORM, WTForms for form handling, and Flask-Login for authentication. The app displays news posts, allows admins to create/delete posts, and organizes articles by category.
+
+---
+
+## MAIN COMPONENTS
+
+### 1. Entry Point (`app.py`)
+- **Purpose:** Starts the Flask server, defines routes, handles requests.
+- **Key Functions:**
+  - `@app.route('/')`: Shows homepage with news feed.
+  - `@app.route('/login')`: Handles admin login (input: username/password).
+  - `@app.route('/logout')`: Logs out admin.
+  - `@app.route('/create')`: Admin-only, shows post creation form (input: title, content, category, image).
+  - `@app.route('/delete/<id>')`: Admin-only, deletes a post.
+  - `@app.route('/category/<name>')`: Shows posts by category.
+
+### 2. Database Models (`models.py`)
+- **Purpose:** Defines data structure for posts and users.
+- **Key Classes:**
+  - `User`: Stores admin credentials.
+  - `Post`: Stores news articles (fields: title, content, category, image filename, timestamp).
+
+### 3. Forms (`forms.py`)
+- **Purpose:** Handles user/admin input via WTForms.
+- **Key Classes:**
+  - `LoginForm`: For admin login.
+  - `PostForm`: For creating/editing news posts (fields: title, content, category, image).
+
+### 4. Templates (`templates/`)
+- **Purpose:** Renders HTML pages using Jinja2.
+- **Key Files:**
+  - `index.html`: Homepage/news feed.
+  - `login.html`: Admin login page.
+  - `create.html`: Post creation form.
+  - `category.html`: Category-specific news.
+  - `base.html`: Shared layout.
+
+### 5. Static Files (`static/`)
+- **Purpose:** Stores CSS, JS, and uploaded images.
+- **Key Files:**
+  - `style.css`: Custom styles.
+  - `uploads/`: Uploaded post images.
+
+---
+
+## DATA FLOW
+
+### 1. User Visits Homepage
+- **Route:** `/`
+- **Code:** `app.py` (`index` function)
+- **Action:** Fetches all posts from database, passes to `index.html` for display.
+
+### 2. Admin Login
+- **Route:** `/login`
+- **Code:** `app.py` (`login` function), `forms.py` (`LoginForm`)
+- **Action:** Receives username/password, validates via `User` model, logs in admin.
+
+### 3. Creating a News Post
+- **Route:** `/create`
+- **Code:** `app.py` (`create_post` function), `forms.py` (`PostForm`)
+- **Action:** Admin fills form (title, content, category, image). Form data is validated, image saved to `static/uploads/`, post saved to database.
+
+### 4. Viewing by Category
+- **Route:** `/category/<name>`
+- **Code:** `app.py` (`category` function)
+- **Action:** Fetches posts matching category, renders `category.html`.
+
+### 5. Deleting a Post
+- **Route:** `/delete/<id>`
+- **Code:** `app.py` (`delete_post` function)
+- **Action:** Admin triggers delete, post removed from database.
+
+---
+
+## WHERE INPUT GOES
+
+- **Login Form:** Data sent to `/login`, checked against `User` model.
+- **Post Form:** Data sent to `/create`, saved as new `Post` in database, image saved to `static/uploads/`.
+- **Category Selection:** URL `/category/<name>` triggers database query for matching posts.
+
+---
+
+## WHERE DATA IS DISPLAYED
+
+- **Homepage (`/`):** All posts, featured/trending section.
+- **Category Page (`/category/<name>`):** Posts filtered by category.
+- **Admin Panel (`/create`):** Form for new post.
+- **Post Images:** Displayed from `static/uploads/`.
+
+---
+
+## SUMMARY
+
+- **Input Handling:** WTForms in `forms.py`, processed in route functions in `app.py`.
+- **Data Storage:** SQLAlchemy models in `models.py`, SQLite database.
+- **Data Display:** Jinja2 templates in `templates/`, images from `static/uploads/`.
+- **Authentication:** Flask-Login, only admin can create/delete posts.
+
+---
+
+For more details, see code comments in each file.

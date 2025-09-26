@@ -50,6 +50,12 @@ a:hover {
    2. Header & Navbar Styles
    =================================================== */
 
+/* Style for the new image logo */
+.logo img {
+    height: 60px; /* Adjust this value to make the logo bigger or smaller */
+    width: auto;  /* This keeps the logo's proportions correct */
+}
+
 /* Top "Breaking News" Bar */
 #top-breaking-bar {
     background-color: var(--primary-red);
