@@ -537,3 +537,32 @@ a:hover {
         flex-basis: auto; /* Remove the fixed width for the timestamp */
     }
 }
+
+/* ===================================================
+   10. Admin Panel Styles
+   =================================================== */
+
+.admin-post-card {
+    border-left: 4px solid var(--primary-red);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.admin-post-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.admin-post-card .card-title {
+    font-family: var(--font-headings);
+    font-size: 1.2rem;
+}
+
+.admin-post-card .post-meta {
+    font-size: 0.85rem;
+}
+
+.admin-post-card .post-actions {
+    display: flex;
+    gap: 0.5rem;
+    white-space: nowrap; /* Prevents buttons from wrapping on small screens */
+}
