@@ -4,19 +4,42 @@
 <div class="row">
 
     <div class="col-lg-8">
+        
         {% if featured_posts %}
         <section class="mb-5">
-            <h2 class="section-title"><span><i class="fas fa-star"></i> Featured Stories</span></h2>
-            {% set hero_post = featured_posts[0] %}
-            <div class="card hero-featured-post">
-                {% if hero_post.thumbnail %}
-                <img src="{{ url_for('static', filename='uploads/' + hero_post.thumbnail) }}" class="card-img" alt="{{ hero_post.title }}">
-                {% endif %}
-                <div class="card-img-overlay d-flex flex-column justify-content-end">
-                    <a href="{{ url_for('category', category_name=hero_post.category) }}" class="badge bg-primary mb-2 align-self-start">{{ hero_post.category }}</a>
-                    <h3 class="card-title fw-bold text-white">{{ hero_post.title }}</h3>
-                    <a href="{{ url_for('article', id=hero_post.id) }}" class="btn btn-light btn-sm align-self-start">Read More</a>
+            <h2 class="section-title">
+                <span><i class="fas fa-star"></i> Featured Stories</span>
+            </h2>
+
+            <div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
+                
+                <div class="carousel-indicators">
+                    {% for post in featured_posts %}
+                    <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="{{ loop.index0 }}" class="{% if loop.first %}active{% endif %}" aria-current="true"></button>
+                    {% endfor %}
                 </div>
+
+                <div class="carousel-inner">
+                    {% for post in featured_posts %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ url_for('static', filename='uploads/' + post.thumbnail) if post.thumbnail else 'https://via.placeholder.com/1200x450/6c757d/FFFFFF?text=Newsbuzz360' }}" class="d-block w-100" alt="{{ post.title }}">
+                        <div class="carousel-caption d-none d-md-block">
+                            <a href="{{ url_for('category', category_name=post.category) }}" class="badge bg-danger mb-2 text-decoration-none">{{ post.category }}</a>
+                            <h5>{{ post.title }}</h5>
+                            <a href="{{ url_for('article', id=post.id) }}" class="btn btn-light btn-sm mt-2">Read More</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </section>
         {% endif %}
