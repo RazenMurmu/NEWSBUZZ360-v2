@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title mb-0"><span><i class="fas fa-users"></i> Newsletter Subscribers</span></h2>
+        <span class="badge bg-primary rounded-pill">{{ subscribers|length }} Total</span>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            {% if subscribers %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Email Address</th>
+                            <th>Subscribed On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subscriber in subscribers %}
+                        <tr>
+                            <td>{{ subscriber.email }}</td>
+                            <td>{{ subscriber.subscribed_on.strftime('%B %d, %Y') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center text-muted">You don't have any subscribers yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

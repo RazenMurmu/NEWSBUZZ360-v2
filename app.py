@@ -10,7 +10,7 @@ from flask_caching import Cache
 import bleach
 from PIL import Image  # <-- Missing import added here
 from forms import LoginForm, PostForm
-from models import db, User, Post
+from models import db, User, Post, Subscriber
 
 # ===================================================
 # App Initialization & Configuration
@@ -115,6 +115,26 @@ def search():
     results = Post.query.filter(or_(Post.title.ilike(search_term), Post.subtitle.ilike(search_term))).order_by(Post.id.desc()).all()
     return render_template("search_results.html", posts=results, query=query)
 
+# Add this new route to app.py
+@app.route("/subscribe", methods=["POST"])
+def subscribe():
+    email = request.form.get('email')
+    if email:
+        # Check if the email is already subscribed
+        existing_subscriber = Subscriber.query.filter_by(email=email).first()
+        if existing_subscriber:
+            flash("You are already subscribed!", 'info')
+        else:
+            new_subscriber = Subscriber(email=email)
+            db.session.add(new_subscriber)
+            db.session.commit()
+            flash("Thank you for subscribing!", 'success')
+    else:
+        flash("Please enter a valid email address.", 'danger')
+
+    # Redirect back to the page the user was on
+    return redirect(request.referrer or url_for('home'))
+
 # ===================================================
 # Authentication Routes
 # ===================================================
@@ -140,7 +160,16 @@ def logout():
 # ===================================================
 # Admin Routes
 # ===================================================
-@app.route("/admin") # <-- Missing route added here
+
+# Add this new route to the Admin Routes section in app.py
+
+@app.route("/b7h3-j9s2k-admin-dashboard-xyz/subscribers")
+@login_required
+def subscribers():
+    all_subscribers = Subscriber.query.order_by(Subscriber.subscribed_on.desc()).all()
+    return render_template("subscribers.html", subscribers=all_subscribers)
+
+@app.route("/b7h3-j9s2k-admin-dashboard-xyz") # <-- Missing route added here
 @login_required
 def admin():
     posts = Post.query.order_by(Post.id.desc()).all()
@@ -250,3 +279,42 @@ def upload_image():
 # ===================================================
 if __name__ == "__main__":
     app.run(debug=True)
+
+# ===================================================
+# Custom CLI Commands for Admin Management
+# ===================================================
+
+@app.cli.command("create-admin")
+def create_admin():
+    """Creates a new admin user."""
+    from getpass import getpass
+    username = input("Enter admin username: ")
+    password = getpass("Enter admin password: ")
+    
+    # Check if user already exists
+    if User.query.filter_by(username=username).first():
+        print(f"User '{username}' already exists.")
+        return
+
+    hashed_password = generate_password_hash(password)
+    new_admin = User(username=username, password=hashed_password)
+    db.session.add(new_admin)
+    db.session.commit()
+    print(f"Admin user '{username}' created successfully.")
+
+
+@app.cli.command("update-password")
+def update_password():
+    """Updates an existing user's password."""
+    from getpass import getpass
+    username = input("Enter username of the user to update: ")
+    user = User.query.filter_by(username=username).first()
+    
+    if not user:
+        print(f"User '{username}' not found.")
+        return
+        
+    password = getpass("Enter new password: ")
+    user.password = generate_password_hash(password)
+    db.session.commit()
+    print(f"Password for user '{username}' updated successfully.")

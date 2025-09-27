@@ -21,8 +21,15 @@ class Post(db.Model):
     category = db.Column(db.String(50), nullable=True)
     thumbnail = db.Column(db.String(100), nullable=True)
     featured = db.Column(db.Boolean, default=False)
-    # Use UTC for timestamps as a best practice
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return f'<Post {self.title}>'
+
+class Subscriber(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    subscribed_on = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Subscriber {self.email}>'

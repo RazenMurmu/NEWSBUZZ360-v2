@@ -135,9 +135,10 @@
                 <h4 class="widget-title widget-title-cyan"><i class="fas fa-envelope me-2"></i> Newsletter</h4>
                 <div class="widget-body">
                     <p>Stay updated with our latest news and articles.</p>
-                    <form>
-                        <input type="email" class="form-control mb-2" placeholder="Enter your email">
-                        <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+                    <form action="{{ url_for('subscribe') }}" method="POST">
+                        <input type="email" name="email" class="form-control mb-2" placeholder="Enter your email"
+                            required>
+                        <button type="submit" class="btn btn-danger w-100">Subscribe</button>
                     </form>
                 </div>
             </div>
