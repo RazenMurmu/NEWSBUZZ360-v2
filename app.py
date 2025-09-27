@@ -7,6 +7,7 @@ from sqlalchemy import or_
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+from flask_caching import Cache
 
 from forms import LoginForm, PostForm
 from models import db, User, Post
@@ -21,8 +22,13 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'a-default-fallback-secr
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///news.db'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024  # 2MB max file size
+app.config['CACHE_TYPE'] = 'SimpleCache'  # Uses a simple in-memory cache
+app.config['CACHE_DEFAULT_TIMEOUT'] = 300 # Sets a default cache time of 5 minutes (300 seconds)
 
 db.init_app(app)
+
+# --- NEW: Initialize the Cache ---
+cache = Cache(app)
 
 # Ensure upload directory exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -68,7 +74,9 @@ def format_datetime(value, format='%B %d, %Y'):
     return "Recent"
 
 @app.context_processor
+@cache.cached(timeout=600)
 def inject_categories():
+    print("--- RUNNING CATEGORY QUERY ---") 
     categories = db.session.query(
         Post.category,
         db.func.count(Post.id).label('count')

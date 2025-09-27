@@ -52,7 +52,7 @@ a:hover {
 
 /* Style for the new image logo */
 .logo img {
-    height: 60px; /* Adjust this value to make the logo bigger or smaller */
+    height: 80px; /* Adjust this value to make the logo bigger or smaller */
     width: auto;  /* This keeps the logo's proportions correct */
 }
 
