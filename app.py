@@ -41,6 +41,14 @@ def load_user(user_id):
 # ===================================================
 # Template Filters & Context Processors
 # ===================================================
+
+# Add this new function to app.py
+@app.context_processor
+def inject_latest_post():
+    latest_post = Post.query.order_by(Post.id.desc()).first()
+    print(f"--- LATEST POST FOUND: {latest_post} ---") 
+    return dict(latest_post=latest_post)
+
 @app.template_filter('datetime')
 def format_datetime(value, format='%B %d, %Y'):
     if isinstance(value, datetime):

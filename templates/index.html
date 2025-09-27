@@ -4,7 +4,7 @@
 <div class="row">
 
     <div class="col-lg-8">
-        
+
         {% if featured_posts %}
         <section class="mb-5">
             <h2 class="section-title">
@@ -12,31 +12,39 @@
             </h2>
 
             <div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
-                
+
                 <div class="carousel-indicators">
                     {% for post in featured_posts %}
-                    <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="{{ loop.index0 }}" class="{% if loop.first %}active{% endif %}" aria-current="true"></button>
+                    <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="{{ loop.index0 }}"
+                        class="{% if loop.first %}active{% endif %}" aria-current="true"></button>
                     {% endfor %}
                 </div>
 
                 <div class="carousel-inner">
                     {% for post in featured_posts %}
                     <div class="carousel-item {% if loop.first %}active{% endif %}">
-                        <img src="{{ url_for('static', filename='uploads/' + post.thumbnail) if post.thumbnail else 'https://via.placeholder.com/1200x450/6c757d/FFFFFF?text=Newsbuzz360' }}" class="d-block w-100" alt="{{ post.title }}">
+                        <img src="{{ url_for('static', filename='uploads/' + post.thumbnail) if post.thumbnail else 'https://via.placeholder.com/1200x450/6c757d/FFFFFF?text=Newsbuzz360' }}"
+                            class="d-block w-100" alt="{{ post.title }}">
                         <div class="carousel-caption d-none d-md-block">
-                            <a href="{{ url_for('category', category_name=post.category) }}" class="badge bg-danger mb-2 text-decoration-none">{{ post.category }}</a>
-                            <h5>{{ post.title }}</h5>
-                            <a href="{{ url_for('article', id=post.id) }}" class="btn btn-light btn-sm mt-2">Read More</a>
+                            {# New gradient overlay div #}
+                            <div class="carousel-caption-overlay"></div>
+                            <a href="{{ url_for('category', category_name=post.category) }}"
+                                class="badge bg-danger mb-2 text-decoration-none">{{ post.category }}</a>
+                            <h5 class="text-white">{{ post.title }}</h5> {# Added text-white class here #}
+                            <a href="{{ url_for('article', id=post.id) }}" class="btn btn-light btn-sm mt-2">Read
+                                More</a>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
 
-                <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel"
+                    data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel"
+                    data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
@@ -47,36 +55,41 @@
         <section>
             <h2 class="section-title"><span><i class="fas fa-newspaper"></i> More News</span></h2>
             {% if posts_pagination.items %}
-                {% for post in posts_pagination.items %}
-                <div class="news-list-item">
-                    <div class="timestamp">{{ post.created_at|datetime }}</div>
-                    <div class="content">
-                        <h4 class="title"><a href="{{ url_for('article', id=post.id) }}">{{ post.title }}</a></h4>
-                        <p class="summary">{{ post.subtitle or post.content|truncate(120) }}</p>
-                    </div>
-                    <div class="thumbnail">
-                        <a href="{{ url_for('article', id=post.id) }}">
-                             <img src="{{ url_for('static', filename='uploads/' + post.thumbnail) if post.thumbnail else 'https://via.placeholder.com/150' }}" alt="{{ post.title }}">
-                        </a>
-                    </div>
+            {% for post in posts_pagination.items %}
+            <div class="news-list-item">
+                <div class="timestamp">{{ post.created_at|datetime }}</div>
+                <div class="content">
+                    <h4 class="title"><a href="{{ url_for('article', id=post.id) }}">{{ post.title }}</a></h4>
+                    <p class="summary">{{ post.subtitle or post.content|truncate(120) }}</p>
                 </div>
-                {% endfor %}
+                <div class="thumbnail">
+                    <a href="{{ url_for('article', id=post.id) }}">
+                        <img src="{{ url_for('static', filename='uploads/' + post.thumbnail) if post.thumbnail else 'https://via.placeholder.com/150' }}"
+                            alt="{{ post.title }}">
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
             {% else %}
-                <p>No news to display.</p>
+            <p>No news to display.</p>
             {% endif %}
 
             {% if posts_pagination.pages > 1 %}
             <nav aria-label="Page navigation" class="mt-5">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item {% if not posts_pagination.has_prev %}disabled{% endif %}"><a class="page-link" href="{{ url_for('home', page=posts_pagination.prev_num) }}">&laquo;</a></li>
-                    {% for page_num in posts_pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-                        {% if page_num %}
-                            <li class="page-item {% if posts_pagination.page == page_num %}active{% endif %}"><a class="page-link" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><span class="page-link">...</span></li>
-                        {% endif %}
+                    <li class="page-item {% if not posts_pagination.has_prev %}disabled{% endif %}"><a class="page-link"
+                            href="{{ url_for('home', page=posts_pagination.prev_num) }}">&laquo;</a></li>
+                    {% for page_num in posts_pagination.iter_pages(left_edge=1, right_edge=1, left_current=1,
+                    right_current=2) %}
+                    {% if page_num %}
+                    <li class="page-item {% if posts_pagination.page == page_num %}active{% endif %}"><a
+                            class="page-link" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
                     {% endfor %}
-                    <li class="page-item {% if not posts_pagination.has_next %}disabled{% endif %}"><a class="page-link" href="{{ url_for('home', page=posts_pagination.next_num) }}">&raquo;</a></li>
+                    <li class="page-item {% if not posts_pagination.has_next %}disabled{% endif %}"><a class="page-link"
+                            href="{{ url_for('home', page=posts_pagination.next_num) }}">&raquo;</a></li>
                 </ul>
             </nav>
             {% endif %}
