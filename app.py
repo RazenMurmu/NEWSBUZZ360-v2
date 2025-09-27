@@ -192,18 +192,43 @@ def create_post():
         thumbnail_filename = None
         if form.thumbnail.data:
             file = form.thumbnail.data
-            if file and file.filename:
-                filename = secure_filename(file.filename)
-                name, ext = os.path.splitext(filename)
-                # Create a more unique filename to prevent overwrites
-                thumbnail_filename = f"{name}_{int(datetime.now().timestamp())}{ext}"
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], thumbnail_filename))
-        
+            filename = secure_filename(file.filename)
+            name, ext = os.path.splitext(filename)
+            thumbnail_filename = f"{name}_{int(datetime.now().timestamp())}{ext}"
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], thumbnail_filename)
+
+            try:
+                img = Image.open(file)
+                img.verify()
+                img = Image.open(file)
+
+                # --- NEW: Resize and Optimize Image ---
+                max_width = 1200
+                if img.width > max_width:
+                    new_height = int((max_width / img.width) * img.height)
+                    img = img.resize((max_width, new_height), Image.Resampling.LANCZOS)
+
+                img.save(filepath, optimize=True, quality=85) # Save with optimization
+                # --- End of new code ---
+
+            except Exception as e:
+                flash(f"There was an error uploading the image: {e}")
+                return redirect(url_for('create_post'))
+
+        # ... (rest of the function is the same) ...
+        allowed_tags = {'p', 'b', 'i', 'u', 'strong', 'em', 'a', 'h2', 'h3', 'h4', 'img', 'blockquote'}
+        allowed_attrs = {'a': ['href', 'title'], 'img': ['src', 'alt', 'style']}
+        clean_content = bleach.clean(
+            form.content.data, 
+            tags=allowed_tags, 
+            attributes=allowed_attrs
+        )
+
         post = Post(
             title=form.title.data,
             subtitle=form.subtitle.data,
-            content=form.content.data,
-            category=form.category.data.lower(), # Store category in lowercase for consistency
+            content=clean_content,
+            category=form.category.data.lower(),
             thumbnail=thumbnail_filename,
             featured=(form.featured.data == 'yes')
         )
@@ -211,7 +236,7 @@ def create_post():
         db.session.commit()
         flash("Post created successfully!")
         return redirect(url_for("admin"))
-    
+
     return render_template("create_post.html", form=form)
 
 @app.route("/delete/<int:id>")

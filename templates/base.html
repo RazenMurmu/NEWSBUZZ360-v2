@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -51,8 +53,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link active" href="{{ url_for('home') }}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Trending</a></li>
-                        <li class="nav-item"><a class="nav-link"
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('trending') }}">Trending</a></li>                        <li class="nav-item"><a class="nav-link"
                                 href="{{ url_for('category', category_name='technology') }}">Technology</a></li>
                         <li class="nav-item"><a class="nav-link"
                                 href="{{ url_for('category', category_name='entertainment') }}">Entertainment</a></li>
