@@ -180,16 +180,14 @@ a:hover {
 /* ===================================================
    3. Homepage Content Styles
    =================================================== */
-
 .section-title {
-    font-family: var(--font-primary);
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-family: var(--font-headings);
+    font-size: 1rem; /* Changed from 2.2rem */
+    font-weight: 700;
+    margin-bottom: 1.5rem; /* Slightly reduced spacing */
+    position: relative;
     text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid var(--border-color);
     padding-bottom: 0.5rem;
-    display: inline-block;
 }
 
 .section-title span {
@@ -480,4 +478,44 @@ a:hover {
 
 .footer-bottom {
     background-color: #1a1a1a; /* Even darker for the bottom bar */
+}
+
+/* ===================================================
+   9. Responsive Styles (for smaller displays)
+   =================================================== */
+
+@media (max-width: 768px) {
+
+    /* --- Reduce Font Sizes for Readability --- */
+    
+    .section-title {
+        font-size: 0.5rem; /* Make section titles smaller on mobile */
+    }
+
+    .article-title {
+        font-size: 2rem; /* Make main article titles smaller */
+    }
+
+    .hero-featured-post .card-title {
+        font-size: 1rem; /* Adjust the featured post title */
+    }
+
+
+    /* --- Adjust Layouts for Single Column --- */
+
+    .news-list-item {
+        flex-direction: column; /* Stack news list items vertically */
+        align-items: flex-start;
+        gap: 10px; /* Reduce the gap between elements */
+    }
+
+    .news-list-item .thumbnail {
+        width: 100%; /* Make the thumbnail full-width */
+        flex-basis: auto;
+        margin-top: 10px;
+    }
+
+    .news-list-item .timestamp {
+        flex-basis: auto; /* Remove the fixed width for the timestamp */
+    }
 }

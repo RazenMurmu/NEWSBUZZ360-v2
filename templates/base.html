@@ -34,8 +34,8 @@
                         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Newsbuzz360 Logo">
                     </a>
 
-                    <form class="search-form ms-auto" action="#">
-                        <input type="text" class="form-control" placeholder="Search news...">
+                    <form class="search-form ms-auto" action="{{ url_for('search') }}" method="GET">
+                        <input type="text" class="form-control" name="query" placeholder="Search news..." required>
                         <button type="submit" class="btn"><i class="fas fa-search"></i></button>
                     </form>
                 </div>

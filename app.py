@@ -2,6 +2,8 @@ import os
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
+from sqlalchemy import or_
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
@@ -34,6 +36,25 @@ login_manager.login_view = "login"
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+# Add this new route to app.py
+
+@app.route("/search")
+def search():
+    query = request.args.get('query', '') # Get the search query from the URL
+    if not query:
+        return redirect(url_for('home'))
+
+    # Search for the query in post titles and subtitles (case-insensitive)
+    search_term = f"%{query}%"
+    results = Post.query.filter(
+        or_(
+            Post.title.ilike(search_term),
+            Post.subtitle.ilike(search_term)
+        )
+    ).order_by(Post.id.desc()).all()
+
+    return render_template("search_results.html", posts=results, query=query)
 
 # ===================================================
 # Template Filters & Context Processors

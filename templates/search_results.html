@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <section>
+            <h2 class="section-title">
+                <span>Search Results for: "{{ query }}"</span>
+            </h2>
+
+            {% if posts %}
+                <p class="text-muted mb-4">Found {{ posts|length }} article(s) matching your search.</p>
+                {% for post in posts %}
+                <div class="news-list-item">
+                    <div class="timestamp">{{ post.created_at|datetime }}</div>
+                    <div class="content">
+                        <h4 class="title"><a href="{{ url_for('article', id=post.id) }}">{{ post.title }}</a></h4>
+                        <p class="summary">{{ post.subtitle or post.content|truncate(120) }}</p>
+                    </div>
+                    <div class="thumbnail">
+                        <a href="{{ url_for('article', id=post.id) }}">
+                             <img src="{{ url_for('static', filename='uploads/' + post.thumbnail) if post.thumbnail else 'https://via.placeholder.com/150' }}" alt="{{ post.title }}">
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center py-5">
+                    <h3 class="text-muted">No Results Found</h3>
+                    <p class="text-muted">Sorry, we couldn't find any articles matching your search for "{{ query }}".</p>
+                    <a href="{{ url_for('home') }}" class="btn btn-primary mt-3">Back to Home</a>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}
