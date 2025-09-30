@@ -1,7 +1,39 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="container mt-4">
-    <h1>Contact Us</h1>
-    <p>You can contact us at: support@example.com</p>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm static-page-card">
+                <div class="card-body p-5">
+                <h1 class="card-title display-5 mb-4">Contact Us</h1>
+                <p class="lead">We value our readers and believe in open communication. If you have any questions, suggestions, feedback, or news tips, feel free to reach out to us using the methods below.</p>
+
+                <hr class="my-5">
+
+                <div class="row">
+                    <!-- Email Support -->
+                    <div class="col-md-6 mb-4">
+                        <h3 class="mb-3"><i class="fas fa-envelope-open-text me-2"></i>Email Support</h3>
+                        <ul class="list-unstyled">
+                            <li><strong>General Inquiries:</strong><br><a href="mailto:contact@buzznews360.com">contact@buzznews360.com</a></li>
+                            <li class="mt-2"><strong>News Tips / Editorial:</strong><br><a href="mailto:editor@buzznews360.com">editor@buzznews360.com</a></li>
+                            <li class="mt-2"><strong>Advertising / Business:</strong><br><a href="mailto:ads@buzznews360.com">ads@buzznews360.com</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Follow Us -->
+                    <div class="col-md-6 mb-4">
+                        <h3 class="mb-3"><i class="fas fa-share-alt me-2"></i>Follow Us</h3>
+                        <p>Stay connected on our social media channels.</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

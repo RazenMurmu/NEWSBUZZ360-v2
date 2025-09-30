@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow-sm static-page-card text-center">
+            <div class="card-body p-5">
+                <h1 class="card-title display-5 mb-3">Something New is Coming!</h1>
+                <p class="lead">
+                    Our full newsletter feature is coming soon. Sign up below, and we'll send you an email the moment it's available.
+                </p>
+
+                <hr class="my-4">
+
+                <form action="{{ url_for('subscribe') }}" method="POST" class="mt-4">
+                    <div class="input-group mb-3">
+                        <input type="email" name="email" class="form-control form-control-lg" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn btn-danger">Notify Me</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

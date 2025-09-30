@@ -621,3 +621,46 @@ a.top-breaking-bar-link:hover {
     object-fit: cover; /* Ensures image covers the area without distortion */
 }
 
+/* ===================================================
+   12. Static Page Styles (About, Contact, etc.)
+   =================================================== */
+
+.static-page-card {
+    border: none;
+    border-top: 4px solid var(--primary-red);
+}
+
+.static-page-card .card-body {
+    padding: 2.5rem 3rem; /* Add more padding */
+}
+
+.static-page-card .card-title {
+    font-family: var(--font-logo);
+    color: var(--heading-color);
+}
+
+.static-page-card .lead {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.static-page-card h3 {
+    font-family: var(--font-headings);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-red);
+}
+
+.static-page-card .blockquote {
+    border-left: 4px solid var(--border-color);
+    padding: 0.5rem 1.5rem;
+    font-style: italic;
+    color: #6c757d;
+}
+
+.static-page-card hr {
+    opacity: 0.15;
+}
